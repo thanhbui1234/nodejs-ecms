@@ -15,6 +15,8 @@ export const checkOverload = () => {
     // Check memory
     const memory = process.memoryUsage().heapUsed / 1024 / 1024
     const memoryTotal = os.totalmem() / 1024 / 1024
+    const numCore = os.cpus().length
+    log('Number of core: ', numCore)
     log('Total memory: ', memoryTotal, 'MB')
     console.log('Memory used: ', memory, 'MB')
 
@@ -23,6 +25,7 @@ export const checkOverload = () => {
 
     if (numcore > maxConnection) {
       console.log('Overload connection')
+      // notify send
     }
   }, _second)
 }

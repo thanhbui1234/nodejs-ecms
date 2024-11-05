@@ -23,7 +23,11 @@ class Database implements IDatabase {
     }
     if (type === 'mongodb') {
       mongoose
-        .connect(connectStr)
+        .connect(connectStr, {
+          // nếu vượt quá 50 nó sẽ xếp hàng , đợi các yêu cầu xử lý xong , và nếu có kết nối nào free thì  nó sẽ cho phép xử lý
+          // kích thước của poollsize thưởng dựa vào cpu và ram của máy
+          maxPoolSize: 50
+        })
         .then(() => {
           countConnect()
           checkOverload()

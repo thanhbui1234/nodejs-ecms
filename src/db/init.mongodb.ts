@@ -1,9 +1,12 @@
 // Use singleton design pattern to ensure only one instance is created
-
+import config from '@/configs/config.mongodb'
 import { checkOverload, countConnect } from '@/helpers/connect'
 import mongoose from 'mongoose'
 
-const connectStr = process.env.MONGODB_URI || 'mongodb://localhost:27017/shopDev'
+const {
+  db: { host, port, name }
+} = config
+const connectStr = process.env.MONGODB_URI || `mongodb://${host}:${port}/${name}`
 const development = process.env.NODE_ENV !== 'production'
 
 interface IDatabase {
@@ -15,12 +18,13 @@ class Database implements IDatabase {
 
   private constructor() {
     this.connect()
+    console.log('config', process.env.NODE_ENV)
   }
 
   connect(type: string = 'mongodb'): void {
-    if (development) {
-      console.log('Development mode')
-    }
+    // if (development) {
+    //   console.log('Development mode')
+    // }
     if (type === 'mongodb') {
       mongoose
         .connect(connectStr, {
@@ -29,9 +33,9 @@ class Database implements IDatabase {
           maxPoolSize: 50
         })
         .then(() => {
-          countConnect()
-          checkOverload()
-          console.log('MongoDB connected')
+          // countConnect()
+          // checkOverload()ss
+          console.log(`MongoDB connected ${name}`)
         })
         .catch((error) => {
           console.error('MongoDB connection error:', error)

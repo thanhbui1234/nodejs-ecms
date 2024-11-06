@@ -1,7 +1,10 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import compression from 'compression'
 import helmet from 'helmet'
 import instanceMongoDB from './db/init.mongodb'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
 

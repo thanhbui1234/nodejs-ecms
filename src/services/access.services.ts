@@ -22,7 +22,7 @@ class AcessService implements AccessService {
       if (newShop) {
         // created private key, publich key
         // publich key dung để verify token // sẽ lưu trong hệ thống
-        // private key dung tạo xong sẽ đẩy cho người dùng  , dùng để xài token
+        // private key  tạo xong sẽ đẩy cho người dùng  , dùng để xài token
         const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
           modulusLength: 4096
         })

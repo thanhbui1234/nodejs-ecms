@@ -1,9 +1,7 @@
+import { COLECTION_NAME, DOCUMENT_NAME } from '@/types/const/const'
 import { IShop } from '@/types/models'
 import mongoose, { Schema } from 'mongoose'
 // Declare the Schema of the Mongo model
-
-const COLECTION_NAME = 'Shops'
-const DOCUMENT_NAME = 'Shop'
 
 const shopSchema = new mongoose.Schema<IShop>(
   {
@@ -37,8 +35,8 @@ const shopSchema = new mongoose.Schema<IShop>(
   },
   {
     timestamps: true,
-    collection: COLECTION_NAME
+    collection: COLECTION_NAME.SHOP
   }
 )
 
-export default mongoose.model(DOCUMENT_NAME, shopSchema)
+export default mongoose.model(DOCUMENT_NAME.SHOP, shopSchema)

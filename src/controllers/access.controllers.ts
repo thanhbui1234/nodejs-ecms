@@ -1,3 +1,4 @@
+import accessServices from '@/services/access.services'
 import { Request, Response, NextFunction } from 'express'
 
 class AccessController {
@@ -8,10 +9,7 @@ class AccessController {
         200 ok
         201 created
         */
-      return res.status(201).json({
-        code: 201,
-        metaData: 100
-      })
+      return res.status(201).json(await accessServices.signUp(req.body))
     } catch (error) {
       next(error)
     }

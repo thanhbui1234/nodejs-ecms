@@ -9,6 +9,7 @@ dotenv.config()
 const app = express()
 
 app.use(compression()) // Compress all requests
+app.use(express.json()) // Parse JSON bodies
 app.use(helmet()) // Protect from well-known web vulnerabilities
 app.use(route)
 

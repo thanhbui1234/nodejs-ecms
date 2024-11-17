@@ -11,6 +11,7 @@ const app = express()
 app.use(compression()) // Compress all requests
 app.use(express.json()) // Parse JSON bodies
 app.use(helmet()) // Protect from well-known web vulnerabilities
+app.use(express.urlencoded({ extended: true })) // Parse URL-encoded bodies
 app.use(route)
 
 const port = process.env.PORT || 3005

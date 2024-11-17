@@ -16,8 +16,8 @@ const shopSchema = new mongoose.Schema<IShop>(
       trim: true
     },
     password: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     status: {
       type: String,

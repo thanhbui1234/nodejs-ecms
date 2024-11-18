@@ -14,6 +14,7 @@ export interface IShop {
 
 export interface IKey {
   user: Types.ObjectId // Use ObjectId type here
+  privateKey: string
   publicKey: string
   refreshToken: string[]
 }

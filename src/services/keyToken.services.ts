@@ -3,14 +3,21 @@
 import keyModels from '@/models/key.models'
 
 class KeyTokenService {
-  static createTokenService = async ({ userId, publicKey }: { userId: any; publicKey: any }) => {
+  static createTokenService = async ({
+    userId,
+    publicKey,
+    privateKey
+  }: {
+    userId: any
+    publicKey: any
+    privateKey: any
+  }) => {
     try {
       // publickey dang la rsa khong the luu duoc vao database nen phai chuyen qua hashstring
-      const publicKeyString = publicKey.toString()
-      console.log('publicKeyString', publicKeyString)
       const tokens = await keyModels.create({
         user: userId,
-        publicKey: publicKeyString
+        publicKey,
+        privateKey
       })
       console.log('tokens', tokens)
       return tokens ? tokens.publicKey : null

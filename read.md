@@ -10,4 +10,4 @@ config
 khác biết chính với file env là nó dùng để kiểm soát và lưu trữ các cài đặt của chúng ta mà có  thể kiểm soát được code
 
 - authencation
- sử dụng thuật toán bất đối xửng cho security hệ thống
+ sử dụng thuật toán bất đối xửng cho security hệ thống 

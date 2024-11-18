@@ -12,6 +12,10 @@ const KeySchema = new mongoose.Schema<IKey>(
       required: true,
       ref: DOCUMENT_NAME.SHOP // Use the ref constant from the constant file
     },
+    privateKey: {
+      type: String,
+      required: true
+    },
     publicKey: {
       type: String,
       required: true

@@ -1,13 +1,11 @@
 import jwt from 'jsonwebtoken'
 export const createTokenPair = async (payload: any, publicKey: any, privateKey: any) => {
   try {
-    const accessToken = jwt.sign(payload, privateKey, {
-      algorithm: 'RS256',
+    const accessToken = jwt.sign(payload, publicKey, {
       expiresIn: '2 days'
     })
 
     const refeshToken = jwt.sign(payload, privateKey, {
-      algorithm: 'RS256',
       expiresIn: '7 days'
     })
 

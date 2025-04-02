@@ -1,6 +1,5 @@
 // Use singleton design pattern to ensure only one instance is created
 import config from '@/configs/config.mongodb'
-import { checkOverload, countConnect } from '@/helpers/connect'
 import mongoose from 'mongoose'
 
 const {
@@ -18,7 +17,6 @@ class Database implements IDatabase {
 
   private constructor() {
     this.connect()
-    console.log('config', process.env.NODE_ENV)
   }
 
   connect(type: string = 'mongodb'): void {

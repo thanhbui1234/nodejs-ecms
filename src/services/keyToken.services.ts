@@ -19,7 +19,6 @@ class KeyTokenService {
         publicKey,
         privateKey
       })
-      console.log('tokens', tokens)
       return tokens ? tokens.publicKey : null
     } catch (error) {
       console.log(error)

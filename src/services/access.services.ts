@@ -1,10 +1,10 @@
-import bcrypt from 'bcrypt'
-import crypto from 'node:crypto'
+import { createTokenPair } from '@/auth/authUtil'
 import shopModels from '@/models/shop.models'
 import { AccessService, SignUpService } from '@/types/services'
-import KeyTokenService from './keyToken.services'
-import { createTokenPair } from '@/auth/authUtil'
 import { getInfoData } from '@/utils'
+import bcrypt from 'bcrypt'
+import crypto from 'node:crypto'
+import KeyTokenService from './keyToken.services'
 enum RoleShop {
   SHOP = 'SHOP',
   WRITER = 'WRITER',
@@ -24,25 +24,8 @@ class AcessService implements AccessService {
       const newShop = await shopModels.create({ name, email, passwordHash, roles: [RoleShop.SHOP] })
 
       if (newShop) {
-        // created private key, public key
-        // public key dung để verify token // sẽ lưu trong hệ thống
-        // private key  tạo xong sẽ đẩy cho người
-
-        // const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
-        //   modulusLength: 4096,
-        //   publicKeyEncoding: {
-        //     type: 'spki',
-        //     format: 'pem' //
-        //   },
-        //   privateKeyEncoding: {
-        //     type: 'pkcs8',
-        //     format: 'pem'
-        //   }
-        // })
         const privateKey = crypto.randomBytes(64).toString('hex')
         const publicKey = crypto.randomBytes(64).toString('hex')
-        console.log('Private Key:', privateKey)
-        console.log('Public Key:', publicKey)
         //public key cryptoGraphy Standar ! tieu chuan cho rsa
 
         const keyStore = await KeyTokenService.createTokenService({

@@ -1,8 +1,10 @@
 export enum COLECTION_NAME {
   SHOP = 'Shops',
-  KEY = 'Keys'
+  KEY = 'Keys',
+  API_KEY = 'ApiKeys'
 }
 export enum DOCUMENT_NAME {
   SHOP = 'Shop',
-  KEY = 'Key'
+  KEY = 'Key',
+  API_KEY = 'ApiKey'
 }

@@ -18,3 +18,9 @@ export interface IKey {
   publicKey: string
   refreshToken: string[]
 }
+
+export interface IApiKey {
+  key: string
+  status: boolean
+  premissions: string[]
+}

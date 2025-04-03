@@ -48,3 +48,9 @@ export const permission: any = (permission: string) => {
     return next()
   }
 }
+
+export const asyncHandler = (fn: any) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    fn(req, res, next).catch(next)
+  }
+}

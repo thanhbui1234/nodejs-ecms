@@ -1,4 +1,4 @@
-import { COLECTION_NAME } from '@/types/const/const'
+import { COLLECTION_NAME } from '@/types/const/const'
 import { IApiKey } from '@/types/models'
 import mongoose from 'mongoose'
 
@@ -15,7 +15,7 @@ const ApiKeySchema = new mongoose.Schema<IApiKey>(
       type: Boolean,
       default: true
     },
-    premissions: {
+    permissions: {
       type: [String],
       required: true,
       enum: ['0000', '1111', '2222']
@@ -23,9 +23,9 @@ const ApiKeySchema = new mongoose.Schema<IApiKey>(
   },
   {
     timestamps: true,
-    collection: COLECTION_NAME.API_KEY // Use collection name from constant
+    collection: COLLECTION_NAME.API_KEY // Use collection name from constant
   }
 )
 
 // Export the Mongoose model
-export default mongoose.model<IApiKey>(COLECTION_NAME.API_KEY, ApiKeySchema)
+export default mongoose.model<IApiKey>(COLLECTION_NAME.API_KEY, ApiKeySchema)

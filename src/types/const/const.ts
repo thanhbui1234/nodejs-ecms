@@ -1,4 +1,4 @@
-export enum COLECTION_NAME {
+export enum COLLECTION_NAME {
   SHOP = 'Shops',
   KEY = 'Keys',
   API_KEY = 'ApiKeys'

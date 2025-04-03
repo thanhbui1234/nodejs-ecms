@@ -1,4 +1,4 @@
-import { COLECTION_NAME, DOCUMENT_NAME } from '@/types/const/const'
+import { COLLECTION_NAME, DOCUMENT_NAME } from '@/types/const/const'
 import { IKey } from '@/types/models'
 import mongoose, { Schema } from 'mongoose'
 
@@ -27,10 +27,10 @@ const KeySchema = new mongoose.Schema<IKey>(
     }
   },
   {
-    collection: COLECTION_NAME.KEY, // Use collection name from constant
+    collection: COLLECTION_NAME.KEY, // Use collection name from constant
     timestamps: true
   }
 )
 
 // Export the Mongoose model
-export default mongoose.model<IKey>(COLECTION_NAME.SHOP, KeySchema)
+export default mongoose.model<IKey>(COLLECTION_NAME.SHOP, KeySchema)

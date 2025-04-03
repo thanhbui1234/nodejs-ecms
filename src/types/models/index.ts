@@ -22,5 +22,5 @@ export interface IKey {
 export interface IApiKey {
   key: string
   status: boolean
-  premissions: string[]
+  permissions: string[]
 }

@@ -1,15 +1,19 @@
 import jwt from 'jsonwebtoken'
-export const createTokenPair = async (payload: any, publicKey: any, privateKey: any) => {
+
+const JWT_SECRET = process.env.JWT_SECRET || '1223'
+
+export const createTokenPair = async (payload: any) => {
   try {
-    const accessToken = jwt.sign(payload, publicKey, {
+    const accessToken = jwt.sign(payload, JWT_SECRET, {
       expiresIn: '2 days'
     })
 
-    const refeshToken = jwt.sign(payload, privateKey, {
+    const refreshToken = jwt.sign(payload, JWT_SECRET, {
       expiresIn: '7 days'
     })
 
-    jwt.verify(accessToken, publicKey, (err: any, decoded: any) => {
+    // Verify token after creation to ensure it's valid
+    jwt.verify(accessToken, JWT_SECRET, (err: any, decoded: any) => {
       if (err) {
         console.log(`error in verify accessToken: ${err}`)
       } else {
@@ -17,6 +21,8 @@ export const createTokenPair = async (payload: any, publicKey: any, privateKey: 
       }
     })
 
-    return { accessToken, refeshToken }
-  } catch (error) {}
+    return { accessToken, refreshToken }
+  } catch (error) {
+    throw new Error('Failed to create token pair')
+  }
 }

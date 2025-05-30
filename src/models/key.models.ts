@@ -8,29 +8,20 @@ import mongoose, { Schema } from 'mongoose'
 const KeySchema = new mongoose.Schema<IKey>(
   {
     user: {
-      type: Schema.Types.ObjectId, // Use Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
       required: true,
-      ref: DOCUMENT_NAME.SHOP // Use the ref constant from the constant file
-    },
-    privateKey: {
-      type: String,
-      required: true
-    },
-    publicKey: {
-      type: String,
-      required: true
+      ref: DOCUMENT_NAME.SHOP
     },
     refreshToken: {
-      type: [String], // Correctly define the array type as [String]
-      default: [],
+      type: String,
       required: true
     }
   },
   {
-    collection: COLLECTION_NAME.KEY, // Use collection name from constant
+    collection: COLLECTION_NAME.KEY,
     timestamps: true
   }
 )
 
 // Export the Mongoose model
-export default mongoose.model<IKey>(COLLECTION_NAME.SHOP, KeySchema)
+export default mongoose.model<IKey>(DOCUMENT_NAME.KEY, KeySchema)

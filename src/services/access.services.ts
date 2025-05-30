@@ -4,7 +4,6 @@ import shopModels from '@/models/shop.models'
 import { AccessService, SignUpService } from '@/types/services'
 import { getInfoData } from '@/utils'
 import bcrypt from 'bcrypt'
-import crypto from 'node:crypto'
 import KeyTokenService from './keyToken.services'
 enum RoleShop {
   SHOP = 'SHOP',
@@ -24,21 +23,20 @@ class AcessService implements AccessService {
     const newShop = await shopModels.create({ name, email, passwordHash, roles: [RoleShop.SHOP] })
 
     if (newShop) {
-      const privateKey = crypto.randomBytes(64).toString('hex')
-      const publicKey = crypto.randomBytes(64).toString('hex')
-      //public key cryptoGraphy Standar ! tieu chuan cho rsa
+      const tokens = await createTokenPair({
+        userId: newShop._id,
+        email: newShop.email
+      })
 
       const keyStore = await KeyTokenService.createTokenService({
         userId: newShop._id,
-        publicKey,
-        privateKey
+        refreshToken: tokens.refreshToken
       })
 
       if (!keyStore) {
-        return { code: 'xxx1', message: 'public key  error' }
+        return { code: 'xxx1', message: 'Failed to store refresh token' }
       }
 
-      const tokens = await createTokenPair({ userId: newShop._id, email: newShop.email }, publicKey, privateKey)
       console.log('create token success', tokens)
       return {
         code: 201,

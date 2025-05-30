@@ -21,7 +21,6 @@ export const apiKey: any = async (req: Request, res: Response, next: NextFunctio
         message: 'Forbidden'
       })
     }
-
     ;(req as any).objKey = objKey
     return next()
   } catch (error) {

@@ -13,12 +13,11 @@ enum RoleShop {
 }
 class AcessService implements AccessService {
   signUp = async ({ name, email, password }: SignUpService) => {
-    // try {
     const holderShop = await shopModels.findOne({ email }).lean()
     if (holderShop) {
-      throw new BadRequestError('Email already exists ')
+      throw new BadRequestError('Email already exists in the system')
     }
-    /// tham số thứ 2 truyền vào password và số  10 có nghĩa là thuật toán sẽ phực tạp hơn đồng nghiễn với việc tốn cpu giải quyết hơn
+    
     const passwordHash = await bcrypt.hash(password, 10)
     const newShop = await shopModels.create({ name, email, passwordHash, roles: [RoleShop.SHOP] })
 
@@ -34,9 +33,8 @@ class AcessService implements AccessService {
       })
 
       if (!keyStore) {
-        return { code: 'xxx1', message: 'Failed to store refresh token' }
+        throw new BadRequestError('Failed to store refresh token')
       }
-
       console.log('create token success', tokens)
       return {
         code: 201,
@@ -46,14 +44,11 @@ class AcessService implements AccessService {
         }
       }
     }
-    // if not create shop
+    
     return {
       code: 200,
       metaData: null
     }
-    // } catch (error: unknown) {
-    //   return { code: 'xxx', message: `${error}` }
-    // }
   }
 }
 

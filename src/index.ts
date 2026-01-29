@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
 import instanceMongoDB from './db/init.mongodb'
+import { errorHandler, notFound } from './middleware/catchError'
 dotenv.config()
 
 const app = express()
@@ -17,24 +18,13 @@ app.use(route)
 const port = process.env.PORT || 3005
 
 instanceMongoDB.connect()
+
 const server = app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })
 
-app.use((req: any, res: any, next: any) => {
-  const error: any = new Error('Not found')
-  error.status = 404
-  next(error)
-})
-app.use((error: any, req: any, res: any, next: any) => {
-  res.status(+error.status || 500)
-  res.json({
-    error: {
-      status: error.status || 500,
-      message: error.message || 'Internal Server Error'
-    }
-  })
-})
+app.use(notFound)
+app.use(errorHandler)
 
 process.on('SIGINT', () => {
   console.log('Bye bye!')

@@ -14,7 +14,6 @@ export const apiKey: any = async (req: Request, res: Response, next: NextFunctio
         message: 'Forbidden'
       })
     }
-
     const objKey = await findKeyByID(key)
     if (!objKey) {
       return res.status(403).json({
@@ -48,8 +47,21 @@ export const permission: any = (permission: string) => {
   }
 }
 
+export const checkPermission: any = (req: Request, res: Response, next: NextFunction) => {
+  if (!(req as any).objKey?.permissions || (req as any).objKey.permissions.length === 0) {
+    return res.status(403).json({
+      message: 'permission denied'
+    })
+  }
+  return next()
+}
+
 export const asyncHandler = (fn: any) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    fn(req, res, next).catch(next)
+    try {
+      await fn(req, res, next)
+    } catch (error) {
+      next(error)
+    }
   }
 }

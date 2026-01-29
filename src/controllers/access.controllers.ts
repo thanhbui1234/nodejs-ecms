@@ -3,7 +3,7 @@ import AccessServices from '@/services/access.services'
 import { NextFunction, Request, Response } from 'express'
 
 class AccessController {
-  signUp = async (req: Request, res: Response, next: NextFunction) => {
+  signUp = async (req: Request, res: Response) => {
     Created.send(res, {
       message: 'Register OK',
       metaData: await AccessServices.signUp(req.body)

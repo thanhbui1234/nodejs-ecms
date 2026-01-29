@@ -1,6 +1,6 @@
 //signUp
 import AccessController from '@/controllers/access.controllers'
-import { asyncHandler } from '@/utils/checkAuth'
+import { asyncHandler, checkPermission } from '@/utils/checkAuth'
 import { Router } from 'express'
 
 const router = Router()

@@ -9,7 +9,7 @@ const statusCode = {
 
 const ReasonStatusCode = {
   CONFLICT: 'CONFLICT ERROR',
-  BAD_REQUEST: 'BAD_REQUEST',
+  BAD_REQUEST: 'BAD_REQUEST ERROR',
   NOT_FOUND: 'NOT_FOUND',
   UNAUTHORIZED: 'UNAUTHORIZED',
   FORBIDDEN: 'FORBIDDEN',
@@ -17,7 +17,7 @@ const ReasonStatusCode = {
 }
 
 class ErrorResponse extends Error {
-  constructor(message: string = ReasonStatusCode.CONFLICT, status: number = statusCode.CONFLICT) {
+  constructor(message: string = ReasonStatusCode.BAD_REQUEST, status: number = statusCode.BAD_REQUEST) {
     /// push message to Error
     super(message)
     ;(this as any).status = status
@@ -25,13 +25,13 @@ class ErrorResponse extends Error {
 }
 
 class ConflictRequestError extends ErrorResponse {
-  constructor(message: string, statusCode: number) {
-    super(message, statusCode)
+  constructor(message: string = ReasonStatusCode.CONFLICT, status: number = statusCode.FORBIDDEN) {
+    super(message, status)
   }
 }
 
 class BadRequestError extends ErrorResponse {
-  constructor(message: string = ReasonStatusCode.CONFLICT, status: number = statusCode.CONFLICT) {
+  constructor(message: string = ReasonStatusCode.BAD_REQUEST, status: number = statusCode.BAD_REQUEST) {
     super(message, status)
   }
 }

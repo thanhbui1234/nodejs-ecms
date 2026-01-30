@@ -15,7 +15,11 @@ const KeySchema = new mongoose.Schema<IKey>(
     refreshToken: {
       type: String,
       required: true
-    }
+    },
+    refreshTokenUsed: {
+      type: [Schema.Types.ObjectId],
+      default: []
+    },
   },
   {
     collection: COLLECTION_NAME.KEY,

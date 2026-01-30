@@ -13,8 +13,9 @@ export interface IShop {
 }
 
 export interface IKey {
-  user: Types.ObjectId
+  user: Types.ObjectId,
   refreshToken: string
+  refreshTokenUsed: Types.ObjectId[]
 }
 
 export interface IApiKey {

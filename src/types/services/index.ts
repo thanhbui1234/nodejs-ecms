@@ -6,4 +6,6 @@ export type SignUpService = {
 }
 export interface AccessService {
   signUp: ({ name, email, password, roles }: SignUpService) => Promise<any>
+  login: ({ email, password }: { email: string, password: string }) => Promise<any>
+  logout: ({ keyStore }: { keyStore: any }) => Promise<any>
 }

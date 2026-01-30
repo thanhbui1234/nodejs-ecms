@@ -1,10 +1,7 @@
 import findKeyByID from '@/services/apikey.services'
 import { NextFunction, Request, Response } from 'express'
+import { HEADER } from '@/const/header'
 
-const HEADER = {
-  API_KEY: 'x-api-key',
-  AUTHORIZATION: 'authorization'
-}
 // Option 1: Using RequestHandler type
 export const apiKey: any = async (req: Request, res: Response, next: NextFunction) => {
   try {

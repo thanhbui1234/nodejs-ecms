@@ -33,12 +33,24 @@ class KeyTokenService {
 
   static removeTokenService = async ({ keyId }: { keyId: any }) => {
     try {
-      console.log('keyid',keyId)
       return await keyModels.deleteOne({ _id: keyId })
     } catch (error) {
       console.error('Error removing token:', error)
       throw error
     }
+  }
+  static findByRefreshToken = async ({ refreshToken }: { refreshToken: string }) => {
+    return await keyModels.findOne({ refreshToken: refreshToken }).lean()
+  }
+  static removeTokenUseByUserId = async ({ userId }: { userId: ID }) => {
+    return await keyModels.deleteOne({ user: new Types.ObjectId(userId) })
+  }
+  static findByRefreshTokenUsed = async ({ refreshToken }: { refreshToken: string }) => {
+    console.log(refreshToken,'refreshTokenUsed')
+    return await keyModels.findOne({ refreshTokenUsed: refreshToken }).lean()
+  }
+  static updateRefreshToken = async ({ keyId, refreshToken }: { keyId: ID; refreshToken: string }) => {
+    return await keyModels.updateOne({ _id: keyId }, { $set: { refreshToken: refreshToken }, $addToSet: { refreshTokenUsed: refreshToken } })
   }
 } 
 

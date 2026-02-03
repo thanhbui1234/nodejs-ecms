@@ -17,7 +17,7 @@ const KeySchema = new mongoose.Schema<IKey>(
       required: true
     },
     refreshTokenUsed: {
-      type: [Schema.Types.ObjectId],
+      type: [String],
       default: []
     },
   },

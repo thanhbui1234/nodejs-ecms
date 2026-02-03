@@ -7,7 +7,7 @@ type ID = Types.ObjectId | string
 class KeyTokenService {
   static createTokenService = async ({ userId, refreshToken }: { userId: ID; refreshToken: string }) => {
     try {
-      const filter = { user: userId } 
+      const filter = { user: userId }
       const update = {
         refreshTokenUsed: [],
         refreshToken
@@ -46,12 +46,11 @@ class KeyTokenService {
     return await keyModels.deleteOne({ user: new Types.ObjectId(userId) })
   }
   static findByRefreshTokenUsed = async ({ refreshToken }: { refreshToken: string }) => {
-    console.log(refreshToken,'refreshTokenUsed')
     return await keyModels.findOne({ refreshTokenUsed: refreshToken }).lean()
   }
-  static updateRefreshToken = async ({ keyId, refreshToken }: { keyId: ID; refreshToken: string }) => {
-    return await keyModels.updateOne({ _id: keyId }, { $set: { refreshToken: refreshToken }, $addToSet: { refreshTokenUsed: refreshToken } })
+  static updateRefreshToken = async ({ keyId, refreshToken, oldRefreshToken }: { keyId: ID; refreshToken: string; oldRefreshToken: string }) => {
+    return await keyModels.updateOne({ _id: keyId }, { $set: { refreshToken: refreshToken }, $addToSet: { refreshTokenUsed: oldRefreshToken } })
   }
-} 
+}
 
 export default KeyTokenService

@@ -13,28 +13,28 @@ enum RoleShop {
   ADMIN = 'ADMIN'
 }
 class AcessService implements AccessService {
-// check token has used ?
-  handlerRefreshToken = async ({ refreshToken }: { refreshToken: string }) =>{
-    console.log(refreshToken,'refreshToken')
-    if(!refreshToken){
+  // check token has used ?
+  handlerRefreshToken = async ({ refreshToken }: { refreshToken: string }) => {
+    if (!refreshToken) {
       throw new UnauthorizedError('Refresh token is required')
     }
     const foundToken = await KeyTokenService.findByRefreshTokenUsed({ refreshToken: refreshToken })
-     if(foundToken){
-      const {userId} = await verifyJWT(refreshToken)
+
+    if (foundToken) {
+      const { userId } = await verifyJWT(refreshToken)
       // xoat token da duoc su dung trong key Store 
       await KeyTokenService.removeTokenUseByUserId({ userId: userId })
       throw new ForbiddenError('Forbidden error !! pls login again')
-     }
-     // tim token trong key store co ton tai khong 
+    }
+    // tim token trong key store co ton tai khong 
     const holderToken = await KeyTokenService.findByRefreshToken({ refreshToken: refreshToken })
-    if(!holderToken){
+    if (!holderToken) {
       throw new UnauthorizedError('Shop is not register or not correct 1')
     }
-    const {userId, email} = await verifyJWT(holderToken.refreshToken) as any
+    const { userId, email } = await verifyJWT(holderToken.refreshToken) as any
 
     const foundShop = await ShopService.findByEmailShopService({ email: email })
-    if(!foundShop){
+    if (!foundShop) {
       throw new UnauthorizedError('Shop is not register or not c orrect2 ')
     }
     // create 1 cap token moi 
@@ -42,9 +42,11 @@ class AcessService implements AccessService {
       userId: userId,
       email: email
     })
+
     await KeyTokenService.updateRefreshToken({
       keyId: holderToken._id,
-      refreshToken: newTokens.refreshToken
+      refreshToken: newTokens.refreshToken,
+      oldRefreshToken: refreshToken
     })
     return {
       shop: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
@@ -65,7 +67,7 @@ class AcessService implements AccessService {
       throw new BadRequestError('Email or password is incorrect')
     }
     const isMatch = await bcrypt.compare(password, holderShop.password)
-    
+
     if (!isMatch) {
       throw new UnauthorizedError('Invalid password')
     }
@@ -89,7 +91,7 @@ class AcessService implements AccessService {
     if (holderShop) {
       throw new BadRequestError('Email already exists in the system')
     }
-    
+
     const passwordHash = await bcrypt.hash(password, 10)
     const newShop = await ShopService.createShopService({ name, email, password: passwordHash, roles: [RoleShop.SHOP] })
 
@@ -115,13 +117,13 @@ class AcessService implements AccessService {
         }
       }
     }
-    
+
     return {
       code: 200,
       metaData: null
     }
   }
- 
+
 }
 
 export default new AcessService()

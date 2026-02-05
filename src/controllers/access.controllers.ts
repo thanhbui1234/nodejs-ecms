@@ -24,7 +24,11 @@ class AccessController {
   handlerRefreshToken = async (req: Request, res: Response) => {
     OK.send(res, {
       message: 'Refresh token thành công',
-      metaData: await AccessServices.handlerRefreshToken({refreshToken: (req.body as any).refreshToken})
+      metaData: await AccessServices.handlerRefreshToken({
+        refreshToken : (req as any).refreshToken,
+        keyStore : (req as any).keyStore,
+        user : (req as any).user,
+      })
     })
   }
 }

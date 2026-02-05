@@ -14,10 +14,24 @@ enum RoleShop {
 }
 class AcessService implements AccessService {
   // check token has used ?
-  handlerRefreshToken = async ({ refreshToken }: { refreshToken: string }) => {
+  handlerRefreshToken = async ({ refreshToken, keyStore, user }: { refreshToken: string, keyStore: any, user: any }) => {
+
+    const {userId, email} = user
+
+    if (keyStore.refreshTokenUsed.includes(refreshToken)) {
+      await KeyTokenService.removeTokenUseByUserId({ userId: userId })
+      throw new ForbiddenError('Forbidden error !! pls login again')
+    }
+
+    if(keyStore.refreshToken !== refreshToken) {
+      await KeyTokenService.removeTokenUseByUserId({ userId: userId })
+      throw new UnauthorizedError('Unauthorized error !! pls login again')
+    }
+
     if (!refreshToken) {
       throw new UnauthorizedError('Refresh token is required')
     }
+
     const foundToken = await KeyTokenService.findByRefreshTokenUsed({ refreshToken: refreshToken })
 
     if (foundToken) {
@@ -31,7 +45,6 @@ class AcessService implements AccessService {
     if (!holderToken) {
       throw new UnauthorizedError('Shop is not register or not correct 1')
     }
-    const { userId, email } = await verifyJWT(holderToken.refreshToken) as any
 
     const foundShop = await ShopService.findByEmailShopService({ email: email })
     if (!foundShop) {

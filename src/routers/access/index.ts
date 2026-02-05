@@ -8,6 +8,8 @@ const router = Router()
 
 router.post('/shop/signup', asyncHandler(AccessController.signUp))
 router.post('/shop/login', asyncHandler(AccessController.login))
-router.post('/shop/logout', authentication, asyncHandler(AccessController.logout))
-router.post('/shop/refresh-token',authentication, asyncHandler(AccessController.handlerRefreshToken))
+
+router.use(authentication)
+router.post('/shop/logout', asyncHandler(AccessController.logout))
+router.post('/shop/refresh-token', asyncHandler(AccessController.handlerRefreshToken))
 export default router

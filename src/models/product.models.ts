@@ -19,7 +19,6 @@ const productSchema = new Schema<IProduct>({
   collection: COLLECTION_NAME.PRODUCT
 })
 
-
 // define child schema 
 
 const clothingSchema = new Schema<IClothing>({
@@ -40,13 +39,13 @@ const electronicSchema = new Schema<IElectronic>({
   collection: COLLECTION_NAME.ELECTRONIC
 })
 
-  
- const Clothing = mongoose.model<IClothing>(DOCUMENT_NAME.CLOTHING, clothingSchema)
- const Electronic = mongoose.model<IElectronic>(DOCUMENT_NAME.ELECTRONIC, electronicSchema)
- const Product = mongoose.model<IProduct>(DOCUMENT_NAME.PRODUCT, productSchema)
 
- export default {
+const Clothing = mongoose.model<IClothing>(DOCUMENT_NAME.CLOTHING, clothingSchema)
+const Electronic = mongoose.model<IElectronic>(DOCUMENT_NAME.ELECTRONIC, electronicSchema)
+const Product = mongoose.model<IProduct>(DOCUMENT_NAME.PRODUCT, productSchema)
+
+export default {
   Clothing,
   Electronic,
   Product
- }
+}

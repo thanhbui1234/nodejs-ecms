@@ -38,14 +38,29 @@ export const authentication = asyncHandler(async (req: Request, res: Response, n
   const keyStore = await KeyTokenService.getTokenService({ userId: userId })
   if (!keyStore) { throw new NotFoundError('Unauthorized') }
 
+  if (req.headers[HEADER.REFRESH_TOKEN]) {
+    const refreshToken = req.headers[HEADER.REFRESH_TOKEN] as string
+    try {
+      const decodeUser = await verifyJWT(refreshToken)
+      if (userId !== (decodeUser as any).userId) { throw new UnauthorizedError('Unauthorized') }
+      ; (req as any).keyStore = keyStore
+        ; (req as any).user = decodeUser
+        ; (req as any).refreshToken = refreshToken
+  
+      return next()
+    } catch (error) {
+      throw new UnauthorizedError((error as any).message)
+    }
+  }
+
   const accessToken = req.headers[HEADER.AUTHORIZATION] as string
-  if (!accessToken) { throw new UnauthorizedError('Unauthorized') }
+  if (!accessToken) throw new UnauthorizedError('Unauthorized')
 
   try {
-    const decodeUser = jwt.verify(accessToken, JWT_SECRET)
+    const decodeUser = await verifyJWT(accessToken)
     if (userId !== (decodeUser as any).userId) { throw new UnauthorizedError('Unauthorized') }
-    (req as any).keyStore = keyStore
-    next()
+    ; (req as any).keyStore = keyStore
+    return next()
   } catch (error) {
     throw new UnauthorizedError('Unauthorized')
   }

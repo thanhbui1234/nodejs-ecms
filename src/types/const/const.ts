@@ -14,3 +14,8 @@ export enum DOCUMENT_NAME {
   CLOTHING = 'Clothing',
   ELECTRONIC = 'Electronic'
 }
+
+export enum PRODUCT_TYPE {
+  CLOTHING = 'Clothing',
+  ELECTRONIC = 'Electronic'
+}

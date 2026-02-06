@@ -1,5 +1,5 @@
 //signUp
-import AccessController from '@/controllers/access.controllers'
+import AccessController from '@/controllers/access.controller'
 import { asyncHandler } from '@/utils/checkAuth'
 import { authentication } from '@/auth/authUtil'
 import { Router } from 'express'

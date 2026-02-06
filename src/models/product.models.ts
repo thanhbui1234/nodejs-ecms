@@ -25,6 +25,7 @@ const clothingSchema = new Schema<IClothing>({
   brand: { type: String, required: true },
   size: { type: String },
   material: { type: String },
+  product_shop: { type: Schema.Types.ObjectId, ref: DOCUMENT_NAME.SHOP },
 }, {
   timestamps: true,
   collection: COLLECTION_NAME.CLOTHING
@@ -34,18 +35,13 @@ const electronicSchema = new Schema<IElectronic>({
   manufacturer: { type: String, required: true },
   model: { type: String },
   color: { type: String },
+  product_shop: { type: Schema.Types.ObjectId, ref: DOCUMENT_NAME.SHOP },
 }, {
   timestamps: true,
   collection: COLLECTION_NAME.ELECTRONIC
 })
 
 
-const Clothing = mongoose.model<IClothing>(DOCUMENT_NAME.CLOTHING, clothingSchema)
-const Electronic = mongoose.model<IElectronic>(DOCUMENT_NAME.ELECTRONIC, electronicSchema)
-const Product = mongoose.model<IProduct>(DOCUMENT_NAME.PRODUCT, productSchema)
-
-export default {
-  Clothing,
-  Electronic,
-  Product
-}
+export const Clothing = mongoose.model<IClothing>(DOCUMENT_NAME.CLOTHING, clothingSchema)
+export const Electronic = mongoose.model<IElectronic>(DOCUMENT_NAME.ELECTRONIC, electronicSchema)
+export const Product = mongoose.model<IProduct>(DOCUMENT_NAME.PRODUCT, productSchema)

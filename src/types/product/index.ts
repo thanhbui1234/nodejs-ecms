@@ -8,7 +8,12 @@ export interface IProduct {
   product_quantity: number
   product_type: string
   product_shop: Types.ObjectId
-  product_attributes: IClothing | IElectronic
+  product_slug: string
+  product_attributes: IClothing | IElectronic | IFurniture
+  product_ratingAverage: number
+  product_variations: any[] | any
+  isDraft: boolean
+  isPublished: boolean
 }
 export interface IClothing {
   brand: string
@@ -23,3 +28,9 @@ export interface IElectronic {
   product_shop: Types.ObjectId
 }
 
+export interface IFurniture {
+  brand: string
+  size: string
+  material: string
+  product_shop: Types.ObjectId
+}

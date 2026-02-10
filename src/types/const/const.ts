@@ -4,7 +4,8 @@ export enum COLLECTION_NAME {
   API_KEY = 'ApiKeys',
   PRODUCT = 'Products',
   CLOTHING = 'Clothing',
-  ELECTRONIC = 'Electronic'
+  ELECTRONIC = 'Electronic',
+  FURNITURE = 'Furniture'
 }
 export enum DOCUMENT_NAME {
   SHOP = 'Shop',
@@ -12,10 +13,12 @@ export enum DOCUMENT_NAME {
   API_KEY = 'ApiKey',
   PRODUCT = 'Product',
   CLOTHING = 'Clothing',
-  ELECTRONIC = 'Electronic'
+  ELECTRONIC = 'Electronic',
+  FURNITURE = 'Furniture'
 }
 
 export enum PRODUCT_TYPE {
   CLOTHING = 'Clothing',
-  ELECTRONIC = 'Electronic'
+  ELECTRONIC = 'Electronic',
+  FURNITURE = 'Furniture'
 }

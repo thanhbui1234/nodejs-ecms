@@ -44,7 +44,6 @@ class ProductFactory {
   static async searchProduct({ keySearch }: { keySearch: string }) {
     return await ProductRepository.searchProduct({ keySearch })
   }
-
 }
 
 // defined base product class

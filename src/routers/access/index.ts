@@ -1,7 +1,7 @@
 //signUp
 import AccessController from '@/controllers/access.controller'
 import { asyncHandler } from '@/utils/checkAuth'
-import { authentication } from '@/auth/authUtil'
+import { authentication, authenticationRefreshToken } from '@/auth/authUtil'
 import { Router } from 'express'
 
 const router = Router()
@@ -9,7 +9,10 @@ const router = Router()
 router.post('/shop/signup', asyncHandler(AccessController.signUp))
 router.post('/shop/login', asyncHandler(AccessController.login))
 
-router.use(authentication)
-router.post('/shop/logout', asyncHandler(AccessController.logout))
-router.post('/shop/refresh-token', asyncHandler(AccessController.handlerRefreshToken))
+// logout only needs a valid access token
+router.post('/shop/logout', authentication, asyncHandler(AccessController.logout))
+
+// refresh-token route uses its own middleware that validates the refresh token header
+router.post('/shop/refresh-token', authenticationRefreshToken, asyncHandler(AccessController.handlerRefreshToken))
+
 export default router

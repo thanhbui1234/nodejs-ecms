@@ -1,5 +1,6 @@
 import { NotFoundError } from '@/core/error.response'
 import { Product as ProductModel, Electronic as ElectronicModel, Furniture as FurnitureModel, Clothing as ClothingModel } from '@/models/product.models'
+import { unGetSelectData } from '@/utils'
 import { Types } from 'mongoose'
 
 const findAllDrafShop = async ({ query, limit, skip, sort }: { query: any, limit: number, skip: number, sort?: string }) => {
@@ -53,14 +54,15 @@ const SORT_MAP: Record<string, SortOrder> = {
 
 const DEFAULT_SORT: SortOrder = { updatedAt: -1 }
 
-const queryProduct = async ({ query, limit, skip, sort, filter }: { query: any, limit: number, skip: number, sort?: string, filter?: { isPublished?: boolean } }) => {
+const queryProduct = async ({ query, limit, skip, sort, select }: { query: any, limit: number, skip: number, sort?: string, select?: any }) => {
     const sortOrder: SortOrder = sort ? (SORT_MAP[sort] ?? DEFAULT_SORT) : DEFAULT_SORT
     const products = await ProductModel.find(query)
         .sort(sortOrder)
         .skip(skip)
         .limit(limit)
+        .select(select)
         .populate('product_shop', 'name email -_id')
-        .exec()
+        .lean()
     return products
 }
 
@@ -78,6 +80,17 @@ const searchProduct = async ({ keySearch }: { keySearch: string }) => {
     return products
 }
 
+const findAllProduct = async ({ limit, page, filter, sort, select }: { limit: number, page: number, filter: any, sort?: string, select?: any }) => {
+    const skip = (page - 1) * limit
+    return await queryProduct({ query: filter, limit, skip, sort, select })
+}
+
+const findOneProduct = async ({ product_id }: { product_id: string }) => {
+    const unSelect = ['__v']
+    const product = await ProductModel.findById(product_id).select(unGetSelectData(unSelect)).lean()
+    if (!product) throw new NotFoundError('Product not found')
+    return product
+}
 
 
 export const ProductRepository = {
@@ -86,4 +99,6 @@ export const ProductRepository = {
     findAllPublishShop,
     searchProduct,
     unPublishProductByShop,
+    findAllProduct,
+    findOneProduct,
 }

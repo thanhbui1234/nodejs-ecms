@@ -9,6 +9,8 @@ import { PRODUCT_TYPE } from '@/types/const/const'
 import { IClothing, IElectronic, IFurniture, IProduct } from '@/types/product'
 import { Types } from 'mongoose'
 import { ProductRepository } from '@/models/repositories/product.repo'
+import { convertToBoolean, convertToNumber, getSelectData, removeUndefinedObject } from '@/utils'
+
 
 class ProductFactory {
   static productRegistry: Record<string, typeof Product> = {}
@@ -43,6 +45,35 @@ class ProductFactory {
 
   static async searchProduct({ keySearch }: { keySearch: string }) {
     return await ProductRepository.searchProduct({ keySearch })
+  }
+
+  static async findAllProduct({ limit = 50, page = 1, sort = 'ctime', ...filter }: any) {
+    const cleanLimit = convertToNumber(limit) || 50
+    const cleanPage = convertToNumber(page) || 1
+
+    // Convert boolean strings in filter
+    if (filter.isPublished !== undefined) {
+      filter.isPublished = convertToBoolean(filter.isPublished)
+    }
+
+    // Remove undefined values to avoid polluting the mongo query
+    const cleanFilter = removeUndefinedObject(filter)
+    console.log(cleanFilter, 'cleanFilter')
+
+    const select = ['product_name', 'product_price', 'product_thumb']
+    const cleanSelect = getSelectData(select)
+
+    return await ProductRepository.findAllProduct({
+      limit: cleanLimit,
+      page: cleanPage,
+      filter: cleanFilter,
+      sort,
+      select: cleanSelect
+    })
+  }
+
+  static async findDetailProduct({ product_id }: { product_id: string }) {
+    return await ProductRepository.findOneProduct({ product_id })
   }
 }
 

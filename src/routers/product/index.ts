@@ -7,6 +7,9 @@ import { Router } from 'express'
 const router = Router()
 
 router.get('/product/search/:keySearch', asyncHandler(ProductController.getListSearchProduct))
+router.get('/product/all', asyncHandler(ProductController.findAllProduct))
+router.get('/product/:id', asyncHandler(ProductController.findDetailProduct))
+
 
 router.use(authentication)
 router.post('/product/create', asyncHandler(ProductController.createProduct))

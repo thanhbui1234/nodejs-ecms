@@ -50,6 +50,20 @@ class ProductController {
       metaData: await ProductServices.searchProduct({ keySearch: req.params.keySearch })
     })
   }
+
+  findAllProduct = async (req: Request, res: Response) => {
+    OK.send(res, {
+      message: 'Find all product success',
+      metaData: await ProductServices.findAllProduct(req.query)
+    })
+  }
+
+  findDetailProduct = async (req: Request, res: Response) => {
+    OK.send(res, {
+      message: 'Find detail product success',
+      metaData: await ProductServices.findDetailProduct({ product_id: req.params.id })
+    })
+  }
 }
 
 export default new ProductController()

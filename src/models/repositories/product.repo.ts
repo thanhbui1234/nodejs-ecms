@@ -92,6 +92,9 @@ const findOneProduct = async ({ product_id }: { product_id: string }) => {
     return product
 }
 
+const updateProductId = async ({ product_id, bodyUpdate, isNew = true, model }: { product_id: string, bodyUpdate: any, isNew?: boolean, model: any }) => {
+    return await model.findOneAndUpdate({ _id: product_id }, bodyUpdate, { new: isNew })
+}
 
 export const ProductRepository = {
     findAllDrafShop,
@@ -101,4 +104,5 @@ export const ProductRepository = {
     unPublishProductByShop,
     findAllProduct,
     findOneProduct,
+    updateProductId
 }

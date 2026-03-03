@@ -64,6 +64,16 @@ class ProductController {
       metaData: await ProductServices.findDetailProduct({ product_id: req.params.id })
     })
   }
+  updateProduct = async (req: Request, res: Response) => {
+    OK.send(res, {
+      message: 'Update product success',
+      metaData: await ProductServices.updateProduct({
+        product_id: req.params.id,
+        bodyUpdate: req.body,
+        type: req.body.product_type
+      })
+    })
+  }
 }
 
 export default new ProductController()
